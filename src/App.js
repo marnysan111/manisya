@@ -26,7 +26,7 @@ function App() {
     <div>
       <Header />
       <div className='container mx-auto p-4 text-xl'>
-        <div className='text-center'>manisyaをクリックしよう!</div>
+        <div className='text-center'>クリックしてmanisyaをふろう!</div>
         <div className="grid grid-cols-12 gap-4">
           <div className='col-span-10'>
           <input type="text" className="border-2 text-sm rounded-lg block w-full p-2.5 border-gray-700 placeholder-gray-700" 
