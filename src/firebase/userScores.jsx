@@ -1,14 +1,19 @@
-import { collection, getDocs, doc, serDoc } from "firebase/firestore"; 
+import { collection, getDocs, addDoc } from "firebase/firestore"; 
 import {db} from './index'
 
 export const createUserScore = async (username, score) => {
+    console.log(username, score)
+
     try {
-        await serDoc(doc(db, 'userScores'), {
+        const userScoreCollectionRef = collection(db, 'userScores')
+        const documentRef =  await addDoc(userScoreCollectionRef, {
             username,
             score
         });
+        console.log(documentRef, 'ada')
     } catch (error) {
         console.log(error)
+
     }
 }
 

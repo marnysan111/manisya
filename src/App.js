@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import manisya from './images/manisya.png'
 import Header from './components/header';
+import { createUserScore } from './firebase/userScores';
 function App() {
   const [isClicked, setIsClicked] = useState(false); 
   const [isClickable, setIsClickable] = useState(false);
   const [clickCount, setClickCount] = useState(0)
   const [userName, setUserName] = useState('')
+  const [isSendable, setIsSendable] = useState(false)
   const handleClick = () => {
     if (!isClickable) return;
     setIsClicked(true);
@@ -20,8 +22,14 @@ function App() {
     }
     setIsClickable(true);
     setClickCount(0); 
-    setTimeout(() => setIsClickable(false), 10000); 
+    setTimeout(() => {
+      setIsClickable(false);
+      alert("時間切れ！")
+      setIsSendable(true)
+    }, 10000); 
   };
+
+  
   return (
     <div>
       <Header />
@@ -43,7 +51,14 @@ function App() {
 
         <img src={manisya} className={`mx-auto mt-4 cursor-pointer ${isClicked ? 'animate-pop' : ''}`} alt='manisya' onClick={handleClick} />
         <div className='text-center'>{clickCount}</div>
-        <div></div>
+        <div className='flex justify-center mt-4'>
+        {isSendable ? 
+          <button className='bg-blue-700 transition-transform transform hover:scale-110 ease-out duration-300 text-white rounded-lg w-16 h-10'>そうしん</button> : 
+          <button className='bg-blue-700 transition-transform transform  ease-out duration-300 text-white rounded-lg w-16 h-10' disabled>そうしん</button>
+          }
+        </div>
+        {userName} {clickCount}
+        <button onClick={()=> createUserScore(userName, clickCount)}>hoge</button>
       </div>
     </div>
   );
