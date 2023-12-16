@@ -13,6 +13,7 @@ function App() {
   const [message, setMessage] = useState('')
   const [userScores, setUserScores] = useState([])
   const [totalScore, setTotalScore] = useState(0)
+  
   const handleClick = () => {
     if (!isClickable) return;
     setIsClicked(true);
