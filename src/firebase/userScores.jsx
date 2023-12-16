@@ -1,26 +1,24 @@
-import { collection, getDocs, addDoc } from "firebase/firestore"; 
+import { collection, getDocs, addDoc, doc } from "firebase/firestore"; 
 import {db} from './index'
 
-export const createUserScore = async (username, score) => {
-    console.log(username, score)
-
-    try {
-        const userScoreCollectionRef = collection(db, 'userScores')
-        const documentRef =  await addDoc(userScoreCollectionRef, {
-            username,
-            score
-        });
-        console.log(documentRef, 'ada')
-    } catch (error) {
-        console.log(error)
-
+export const createUserScore = async (username, score, setMessage) => {
+    const payload = {'username': username, 'score': score}
+     try {
+        const userRef =  await addDoc(collection(db, 'score'),payload);
+        return userRef
+     } catch (error) {
+         console.log(error)
+         setMessage('ユーザ登録に失敗しました')
     }
 }
 
-export const getUserScores = async () => {
+export const getUserScores = async (setUserScores, setTotalScore) => {
     try {
-      const snapshot = await getDocs(collection(db, 'userScores'));
-      return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      const snapshot = await getDocs(collection(db, 'score'));
+      const dock = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      const totalScore = dock.reduce((sum, doc) => sum + (doc.score || 0), 0);
+      setUserScores(dock)
+      setTotalScore(totalScore)
     } catch (error) {
       console.error(error);
       console.log("get error")
